@@ -9,8 +9,6 @@ let rtspStream = null;
 class StreamService {
   static async startStream(req) {
     if (!rtspStream) {
-      // rtsp2 not working as expected
-      const rtspUrl2 =  "rtsp://admin:admin123@212.125.30.226:50213/cam/realmonitor?channel=1&subtype=0"
       const rtspUrl =
         'http://47.51.131.147/-wvhttp-01-/GetOneShot?image_size=1280x720&frame_count=1000000000';
 
