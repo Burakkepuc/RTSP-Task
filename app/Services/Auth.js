@@ -2,6 +2,7 @@ import db from '../../src/models/index';
 import md5 from 'md5';
 import General from '../Helpers/General';
 
+
 class AuthService {
   static async register(req) {
     try {
@@ -43,9 +44,17 @@ class AuthService {
         id: user.id,
         email: user.email,
       });
+      req.session.user_id = user.id;
       req.session.token = token;
 
-      return {type: true, message: 'Login successful', token: token};
+      await db.UserLogs.create({
+        user_id: user.id,
+        date: new Date(),
+        is_userloggedin:true,
+      });
+
+
+      return {type: true, message: 'Login successful'};
     } catch (error) {
       return {type: false, message: error.message};
     }

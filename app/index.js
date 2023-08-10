@@ -1,57 +1,30 @@
-const express = require('express');
-const {createCanvas, loadImage} = require('canvas');
-const fs = require('fs');
-const path = require('path');
-const RtspStream = require('node-rtsp-stream');
-
+import express from 'express';
+import session from 'express-session';
+import routes from './Routes';
+import {sequelize} from '../src/models'
 const app = express();
-const port = 3000;
+const port = 4000;
+
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.use(
   session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: {secure: true},
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+    },
   })
 );
 
-const rtspUrl =
-  'http://47.51.131.147/-wvhttp-01-/GetOneShot?image_size=1280x720&frame_count=1000000000';
+app.use('/', routes)
 
-let rtspStream;
 
-app.get('/stream_start', (req, res) => {
-  if (!rtspStream) {
-    rtspStream = new RtspStream({
-      name: 'rtsp-stream',
-      streamUrl: rtspUrl,
-      wsPort: 9999,
-      ffmpegOptions: {
-        '-stats': '',
-        '-r': 30,
-        '-q:v': 4,
-      },
-    });
-    res.send('RTSP akışı başlatıldı.');
-  } else {
-    res.send('RTSP akışı zaten başlatıldı.');
-  }
-});
 
-app.get('/stream_end', (req, res) => {
-  if (rtspStream) {
-    rtspStream.stop();
-    rtspStream = null;
-    res.send('RTSP akışı durduruldu.');
-  } else {
-    res.send('RTSP akışı zaten durduruldu.');
-  }
-});
-
-// Diğer endpoint'leri buraya ekleyebilirsiniz
-
-// Sunucuyu başlat
 app.listen(port, () => {
-  console.log(`Sunucu http://localhost:${port} adresinde çalışıyor.`);
+  console.log(`RTSP app listening at http://localhost:${port}`);
 });

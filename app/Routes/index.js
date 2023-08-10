@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import GeneralHelpers from '../Helpers/General';
+import General from '../Helpers/General';
 const app = express();
 
 const basename = path.basename(__filename);
@@ -14,15 +14,15 @@ fs.readdir(folderRoute, (err, files) => {
     files.forEach(file => {
       if (file === basename) return;
       const routeName = path.parse(file).name.toLowerCase();
-      // if (routeName === 'auth')
-      //   app.use(`/${routeName}`, require(`./${routeName}`).default);
-      // else
-      //   app.use(
-      //     `/${routeName}`,
-      //     GeneralHelpers.verifyToken,
-      //     require(`./${routeName}`).default
-      //   );
-      //   app.use(`/${routeName}`, require(`./${routeName}`).default);
+      if (routeName === 'auth')
+        app.use(`/${routeName}`, require(`./${routeName}`).default);
+      else
+        app.use(
+          `/${routeName}`,
+          General.verifyToken,
+          require(`./${routeName}`).default
+        );
+        // app.use(`/${routeName}`, require(`./${routeName}`).default);
     });
   }
 });

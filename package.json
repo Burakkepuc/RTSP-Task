@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec node app/index.js"
+    "start": "nodemon --exec babel-node app/index.js"
   },
   "author": "burak kepuc",
   "license": "ISC",
   "dependencies": {
     "canvas": "^2.11.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "ffmpeg-static": "^5.1.0",
@@ -21,6 +22,7 @@
     "joi": "^17.9.2",
     "jsmpeg": "^1.0.0",
     "jsonwebtoken": "^9.0.1",
+    "md5": "^2.3.0",
     "node-ffmpeg-stream": "^1.1.0",
     "node-onvif": "^0.1.7",
     "node-rtsp-recorder": "^1.0.3",
@@ -34,5 +36,11 @@
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1",
     "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.10",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
   }
 }

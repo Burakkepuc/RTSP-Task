@@ -18,11 +18,6 @@ class General {
     return token;
   }
 
-  // static decodeToken(token) {
-  //   const decoded = jwt.verify(token, 'TokenSecretKey');
-  //   return decoded;
-  // }
-
   static async verifyToken(req, res, next) {
     try {
       const token = req.session.token;
